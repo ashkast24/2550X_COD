@@ -3,6 +3,8 @@
 void default_constants();
 
 void my_custom_auton();
+void my_second_auton();
+void my_skills_auton();
 void drive_example();
 void turn_example();
 void drive_and_turn();

@@ -12,7 +12,7 @@ ez::Drive chassis(
     {-11, -12, 14},     // Left Chassis Ports (negative port will reverse it!)
     {1, 2, -4},  // Right Chassis Ports (negative port will reverse it!)
 
-    16,      // IMU Port 
+    15,      // IMU Port 
     3.25,  // Wheel Diameter (Remember, 4" wheels without screw holes are actually 4.125!)
     450);   // Wheel RPM = cartridge * (motor gear / wheel gear)
 
@@ -69,6 +69,8 @@ void initialize() {
   ez::as::auton_selector.autons_add({
       //{"Drive\n\nDrive forward and come back", drive_example},
       //{"My Custom Auton\n\nDescription here", my_custom_auton},
+      //{"My Second Custom Auton\n\nDescription here", my_second_auton},
+      {"My Skills Auton\n\nDescription here", my_skills_auton},
       //{"Pure Pursuit\n\nGo to (0, 30) and pass through (6, 10) on the way.  Come back to (0, 0)", odom_pure_pursuit_example},
       //{"Swing Turn\n\nSwing in an 'S' curve", swing_example},
       //{"Pure Pursuit\n\nGo to (0, 30) and pass through (6, 10) on the way.  Come back to (0, 0)", odom_pure_pursuit_example},
@@ -77,7 +79,7 @@ void initialize() {
       //{"Turn\n\nTurn 3 times.", turn_example},
       //{"Drive\n\nDrive forward and come back", drive_example},
       //{"Turn\n\nTurn 3 times.", turn_example},
-      {"Drive and Turn\n\nDrive forward, turn, come back", drive_and_turn},
+      //{"Drive and Turn\n\nDrive forward, turn, come back", drive_and_turn},
       {"Drive and Turn\n\nSlow down during drive", wait_until_change_speed},
       //{"Swing Turn\n\nSwing in an 'S' curve", swing_example},
       {"Motion Chaining\n\nDrive forward, turn, and come back, but blend everything together :D", motion_chaining},
@@ -290,10 +292,10 @@ void opcontrol() {
     }
 
     if (master.get_digital(DIGITAL_R1)) {
-      intake2.move(-127);  // Spins forward at max speed
+      intake2.move(127);  // Spins forward at max speed
     }
     else if (master.get_digital(DIGITAL_R2)) {
-      intake2.move(127);  // Spins backward at max speed
+      intake2.move(-127);  // Spins backward at max speed
     }
     else {
       intake2.move(0);  // Stops the intake
@@ -302,7 +304,7 @@ void opcontrol() {
 
 
     //Booster control
-    /*if (master.get_digital(DIGITAL_X)) {
+    /*i (master.get_digital(DIGITAL_X)) {
       BigBigBooster.move(127);  // Spins forward at max speed
     }
     else if (master.get_digital(DIGITAL_B)) {
