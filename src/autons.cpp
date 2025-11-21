@@ -17,7 +17,7 @@ void default_constants() {
   // P, I, D, and Start I
   chassis.pid_drive_constants_set(10, 0, 40);         // Fwd/rev constants, used for odom and non odom motions
   chassis.pid_heading_constants_set(11.0, 0.0, 20.0);        // Holds the robot straight while going forward without odom
-  chassis.pid_turn_constants_set(2, 0, 12, 0);     // Turn in place constants
+  chassis.pid_turn_constants_set(4, 0, 28, 0);     // Turn in place constants
   chassis.pid_swing_constants_set(6.0, 0.0, 65.0);           // Swing constants (DON'T USE THIS)
   chassis.pid_odom_angular_constants_set(2.0, 0.0, 20.0);    // Angular control for odom motions (using angle that you provide). Angular is for Position. This is PURE PERSUIT
   chassis.pid_odom_boomerang_constants_set(3.5, 0.0, 20.0);  // Angular control for boomerang motions (using angle that it percieves as the best angle to turn to). Boomerang is for Angle
@@ -31,7 +31,7 @@ void default_constants() {
   // Exit conditions
   chassis.pid_turn_exit_condition_set(90_ms, 3_deg, 250_ms, 7_deg, 500_ms, 500_ms);
   chassis.pid_swing_exit_condition_set(90_ms, 3_deg, 250_ms, 7_deg, 500_ms, 500_ms);
-  chassis.pid_drive_exit_condition_set(50_ms, 1_in, 100_ms, 3_in, 100_ms, 300_ms);
+  chassis.pid_drive_exit_condition_set(50_ms, 1_in, 100_ms, 3_in, 100_ms, 250_ms);
   chassis.pid_odom_turn_exit_condition_set(90_ms, 3_deg, 250_ms, 7_deg, 500_ms, 750_ms);
   chassis.pid_odom_drive_exit_condition_set(90_ms, 1_in, 250_ms, 3_in, 500_ms, 750_ms);
   chassis.pid_turn_chain_constant_set(3_deg);
@@ -39,7 +39,7 @@ void default_constants() {
   chassis.pid_drive_chain_constant_set(3_in);
 
   // Slew constants
-  chassis.slew_turn_constants_set(3_deg, 70);
+  chassis.slew_turn_constants_set(5_deg, 50);
   chassis.slew_drive_constants_set(3_in, 50);
   chassis.slew_swing_constants_set(3_in, 80);
 
@@ -69,27 +69,23 @@ void my_custom_auton() {
 
 
 
-//MAIN AUTONOMOUS CODE 
-  
-  Stopper.set(true);
+// 7 BALL HIGH GOAL AUTONOMOUS CODE 
+  //Stopper.set(true);
   chassis.pid_drive_set(8_in, DRIVE_SPEED_3, true);
   chassis.pid_wait();
   chassis.pid_turn_set(-90_deg, TURN_SPEED);
   chassis.pid_wait();
-  intake1.move(127);
-  intake2.move(-127);
-  chassis.pid_drive_set(32_in, DRIVE_SPEED_1, true);
+  intake1.move(-127);
+  //intake2.move(-127);
+  chassis.pid_drive_set(32_in, DRIVE_SPEED_2, true);
   pros::delay(2000);
-  //chassis.pid_drive_set(-15_in, DRIVE_SPEED_3, true);
-  //chassis.pid_wait();
-  //chassis.pid_drive_set(20_in, DRIVE_SPEED_3, true);
-  //pros::delay(1000);
+  //intake1.move(0);
   chassis.pid_wait();
   chassis.pid_drive_set(-25.5_in, DRIVE_SPEED_3, true);
   chassis.pid_wait();
   chassis.pid_turn_set(0_deg, TURN_SPEED);
   chassis.pid_wait();
-  chassis.pid_drive_set(23_in, DRIVE_SPEED_3, true);
+  chassis.pid_drive_set(22_in, DRIVE_SPEED_3, true);
   intake1.move(0);
   intake2.move(0);
   chassis.pid_wait();
@@ -100,159 +96,240 @@ void my_custom_auton() {
   chassis.pid_drive_set(-17.5_in, DRIVE_SPEED_3, true);
   chassis.pid_wait();
   pros::delay(500);
-  intake1.move(127);
+  intake1.move(-127);
   intake2.move(-127);
-  pros::delay(3000);
+  pros::delay(2000);
   chassis.pid_wait();
   intake1.move(0);
   intake2.move(0);
-  
-  /*Matchloader.set(true);
+  Matchloader.set(true); // down
+  intake1.move(-127);
   chassis.pid_wait();
-  intake1.move(127);
-  chassis.pid_drive_set(50_in, DRIVE_SPEED_2, true);
+  chassis.pid_drive_set(33_in, DRIVE_SPEED_3, true);
   chassis.pid_wait();
-  pros::delay(50);
+  pros::delay(300);
   chassis.pid_wait();
-  chassis.pid_drive_set(-40_in, DRIVE_SPEED_5, true);
-  chassis.pid_wait();
-  intake1.move(127);
+  chassis.pid_drive_set(-33_in, DRIVE_SPEED_3, true);
+  pros::delay(1000);
   intake2.move(-127);
-  pros::delay(2000);
-  chassis.pid_drive_set(10_in, DRIVE_SPEED_1, true);
-  chassis.pid_wait();
-  */
+}
 
-  //ALT AUTONOMOUS CODE 
+
+///
+// My Second Custom Auton
+///
+void my_second_auton() {
   
-  /*Stopper.set(true);
-  chassis.pid_drive_set(8_in, DRIVE_SPEED_3, true);
+  const int DRIVE_SPEED_1 = 75;
+  const int DRIVE_SPEED_2 = 50;
+  const int DRIVE_SPEED_3 = 110;
+  const int DRIVE_SPEED_4 = 25;
+  const int DRIVE_SPEED_5 = 90;
+  const int DRIVE_SPEED_6 = 100;
+
+
+
+//4 + 3 Auton CODE 
+  Matchloader.set(true); // down
   chassis.pid_wait();
+  chassis.pid_drive_set(31_in, DRIVE_SPEED_3, true);
+  chassis.pid_wait();
+  chassis.pid_turn_set(90_deg, TURN_SPEED);
+  chassis.pid_wait();
+  intake1.move(-127);
+  chassis.pid_wait();
+  chassis.pid_drive_set(10_in, DRIVE_SPEED_3, true);
+  chassis.pid_wait();
+  pros::delay(240);
+  chassis.pid_wait();
+  Ramp.set(true);
+  chassis.pid_wait();
+  intake1.move(0);
+  chassis.pid_drive_set(-32_in, DRIVE_SPEED_3, true);
+  chassis.pid_wait();
+  intake1.move(-127);
+  intake2.move(-127);
+  chassis.pid_wait();
+  pros::delay(2200);
+  //Scored the high goal
+  
+  //intake1.move(0);
+  intake2.move(0);
+  chassis.pid_wait();
+  chassis.pid_drive_set(15_in, DRIVE_SPEED_5, true);
+  chassis.pid_wait();
+  chassis.pid_turn_set(180_deg, TURN_SPEED);
+  chassis.pid_wait();
+  chassis.pid_drive_set(24_in, DRIVE_SPEED_3, true);
+  chassis.pid_wait();
+  Matchloader.set(false); // up
   chassis.pid_turn_set(-90_deg, TURN_SPEED);
   chassis.pid_wait();
-  intake1.move(127);
-  //intake2.move(-127);
-  chassis.pid_drive_set(32_in, DRIVE_SPEED_1, true);
-  pros::delay(2000);
+  //intake1.move(-127);
   chassis.pid_wait();
-  chassis.pid_drive_set(-15_in, DRIVE_SPEED_3, true);
+  chassis.pid_drive_set(28_in, DRIVE_SPEED_2, true);
+  pros::delay(1500);
   chassis.pid_wait();
-  chassis.pid_drive_set(15_in, DRIVE_SPEED_1, true);
-  pros::delay(2000);
-  chassis.pid_drive_set(-6_in, DRIVE_SPEED_3, true);
+  //intake1.move(0);
+  chassis.pid_drive_set(-8_in, DRIVE_SPEED_6, true);
   chassis.pid_wait();
   chassis.pid_turn_set(225_deg, TURN_SPEED);
   chassis.pid_wait();
-  chassis.pid_drive_set(16_in, DRIVE_SPEED_3, true);
+  chassis.pid_drive_set(12.75_in, DRIVE_SPEED_6, true);
   chassis.pid_wait();
-  pros::delay(500);
+  intake2.move(127);
+  intake1.move(110);
+}
+
+
+///
+// My Skills Auton
+///
+void my_skills_auton() {
+  
+  const int DRIVE_SPEED_1 = 75;
+  const int DRIVE_SPEED_2 = 50;
+  const int DRIVE_SPEED_3 = 110;
+  const int DRIVE_SPEED_4 = 25;
+  const int DRIVE_SPEED_5 = 90;
+  const int DRIVE_SPEED_6 = 100;
+
+
+
+//
+  Matchloader.set(true); // down
+  chassis.pid_wait();
+  chassis.pid_drive_set(31_in, DRIVE_SPEED_3, true);
+  chassis.pid_wait();
+  chassis.pid_turn_set(90_deg, TURN_SPEED);
   chassis.pid_wait();
   intake1.move(-127);
-  intake2.move(127);
   chassis.pid_wait();
-  pros::delay(2000);
+  chassis.pid_drive_set(11_in, DRIVE_SPEED_3, true);
   chassis.pid_wait();
+  pros::delay(1500);
+  chassis.pid_wait();
+  Ramp.set(true);
+  chassis.pid_wait();
+  intake1.move(0);
+  chassis.pid_drive_set(-30_in, DRIVE_SPEED_3, true);
+  chassis.pid_wait();
+  intake1.move(-127);
+  intake2.move(-127);
+  chassis.pid_wait();
+  pros::delay(4000);
+  Matchloader.set(false); // up
   intake1.move(0);
   intake2.move(0);
   chassis.pid_wait();
-  /*chassis.pid_drive_set(-45_in, DRIVE_SPEED_3, true);
+  //Scored the high goal
+
+  /*chassis.pid_drive_set(10_in, DRIVE_SPEED_3, true);
+  chassis.pid_wait();
+  chassis.pid_turn_set(0_deg, TURN_SPEED);
+  chassis.pid_wait();
+  chassis.pid_drive_set(12_in, DRIVE_SPEED_3, true);
+  chassis.pid_wait();
+  chassis.pid_turn_set(-90_deg, TURN_SPEED);
+  chassis.pid_wait();
+  chassis.pid_drive_set(75_in, DRIVE_SPEED_3, true);
+  chassis.pid_wait();
+  chassis.pid_turn_set(180_deg, TURN_SPEED);
+  chassis.pid_wait();
+  chassis.pid_drive_set(10_in, DRIVE_SPEED_3, true);
+  chassis.pid_wait();
+  chassis.pid_turn_set(-90_deg, TURN_SPEED);
+  chassis.pid_wait();
+  Matchloader.set(true);
+  intake1.move(-127);
+  chassis.pid_wait();
+  chassis.pid_drive_set(20_in, DRIVE_SPEED_3, true);
+  chassis.pid_wait();
+  pros::delay(1500);
+  chassis.pid_wait();
+  Ramp.set(true);
+  chassis.pid_wait();
+  intake1.move(0);
+  chassis.pid_drive_set(-30_in, DRIVE_SPEED_3, true);
+  chassis.pid_wait();
+  intake1.move(-127);
+  intake2.move(-127);
+  chassis.pid_wait();
+  pros::delay(4000);
+  Matchloader.set(false); // up
+  intake1.move(0);
+  intake2.move(0);
+  chassis.pid_wait();
+  chassis.pid_drive_set(10_in, DRIVE_SPEED_3, true);
+  chassis.pid_wait();
+  chassis.pid_turn_set(180_deg, TURN_SPEED);
+  chassis.pid_wait();
+  chassis.pid_drive_set(92_in, DRIVE_SPEED_3, true);
+  chassis.pid_wait();
+  chassis.pid_turn_set(-90_deg, TURN_SPEED);
+  chassis.pid_wait();
+  Matchloader.set(true);
+  intake1.move(-127);
+  chassis.pid_wait();
+  chassis.pid_drive_set(20_in, DRIVE_SPEED_3, true);
+  chassis.pid_wait();
+  pros::delay(1500);
+  chassis.pid_wait();
+  Ramp.set(true);
+  chassis.pid_wait();
+  intake1.move(0);
+  chassis.pid_drive_set(-32_in, DRIVE_SPEED_3, true);
+  chassis.pid_wait();
+  intake1.move(-127);
+  intake2.move(-127);
+  chassis.pid_wait();
+  pros::delay(4000);
+  Matchloader.set(false); // up
+  intake1.move(0);
+  intake2.move(0);
+  chassis.pid_wait();
+  //Scored the high goal
+
+  chassis.pid_drive_set(10_in, DRIVE_SPEED_3, true);
+  chassis.pid_wait();
+  chassis.pid_turn_set(180_deg, TURN_SPEED);
+  chassis.pid_wait();
+  chassis.pid_drive_set(15_in, DRIVE_SPEED_3, true);
+  chassis.pid_wait();
+  chassis.pid_turn_set(90_deg, TURN_SPEED);
+  chassis.pid_wait();
+  chassis.pid_drive_set(75_in, DRIVE_SPEED_3, true);
+  chassis.pid_wait();
+  chassis.pid_turn_set(0_deg, TURN_SPEED);
+  chassis.pid_wait();
+  chassis.pid_drive_set(10_in, DRIVE_SPEED_3, true);
   chassis.pid_wait();
   chassis.pid_turn_set(90_deg, TURN_SPEED);
   chassis.pid_wait();
   Matchloader.set(true);
-  chassis.pid_wait();
-  intake1.move(127);
   intake1.move(-127);
   chassis.pid_wait();
-  chassis.pid_drive_set(20_in, DRIVE_SPEED_2, true);
+  chassis.pid_drive_set(20_in, DRIVE_SPEED_3, true);
   chassis.pid_wait();
-  pros::delay(50);
-  chassis.pid_wait();
-  chassis.pid_drive_set(-15_in, DRIVE_SPEED_3, true);
+  pros::delay(1500);
   chassis.pid_wait();
   Ramp.set(true);
   chassis.pid_wait();
-  chassis.pid_drive_set(-12_in, DRIVE_SPEED_5, true);
-  chassis.pid_wait();
-  pros::delay(2000);
-  chassis.pid_wait();
-  intake1.move(127);
-  intake2.move(-127);
-  chassis.pid_wait();
-  pros::delay(2000);
-  chassis.pid_wait();
-  chassis.pid_drive_set(10_in, DRIVE_SPEED_3, true);
-  */
-
-
-
-
-
-
-
-
-
-//Second AUTONOMOUS CODE
-
-  /*
-  //Matchloader.set(true);
-  //Stopper.set(true);
-  chassis.pid_drive_set(33_in, DRIVE_SPEED_3, true);
-  chassis.pid_wait();
-  chassis.pid_turn_set(90_deg, TURN_SPEED);
-  chassis.pid_wait();
-  chassis.pid_drive_set(5_in, DRIVE_SPEED_1, true);
-  chassis.pid_wait();
-  //intake1.move(127);
-  chassis.pid_wait();
-  //pros::delay(1000);
-  chassis.pid_wait();
-
-  chassis.pid_drive_set(-15_in, DRIVE_SPEED_2, true);
-  chassis.pid_wait();
-  //Matchloader.set(false);
-  //Ramp.set(true);
-  //Stopper.set(false);
-  chassis.pid_wait();
-  //pros::delay(1000);
-  chassis.pid_drive_set(-15_in, DRIVE_SPEED_2, true);
-  chassis.pid_wait();
-  //intake2.move(-127);
-  //pros::delay(2000);
-  chassis.pid_wait();
-  intake2.move(0);
   intake1.move(0);
-  //Ramp.set(false);
-  //Stopper.set(false);
-  chassis.pid_drive_set(28_in, DRIVE_SPEED_3, true);
-  chassis.pid_wait();
-  chassis.pid_turn_set(228_deg, TURN_SPEED);
-  chassis.pid_wait();
-  intake1.move(127);
-  chassis.pid_wait();
-  chassis.pid_drive_set(40_in, DRIVE_SPEED_4, true);
-  pros::delay(3000);
-  chassis.pid_wait();
-  chassis.pid_turn_set(220_deg, TURN_SPEED);
-  chassis.pid_wait();
-  chassis.pid_drive_set(13_in, DRIVE_SPEED_1, true);
+  chassis.pid_drive_set(-30_in, DRIVE_SPEED_3, true);
   chassis.pid_wait();
   intake1.move(-127);
+  intake2.move(-127);
   chassis.pid_wait();
+  pros::delay(4000);
   */
-  
-  
-  
-  
-
-
-
-
 
 
   
-  
+
 }
+
+
 
 
 ///
@@ -284,10 +361,11 @@ void turn_example() {
   // The first parameter is the target in degrees
   // The second parameter is max speed the robot will drive at
 
-  chassis.pid_turn_set(90_deg, TURN_SPEED);
+  chassis.pid_turn_set(90_deg, TURN_SPEED, true);
+  chassis.pid_wait();
+  chassis.pid_turn_set(0_deg, TURN_SPEED, true);
   chassis.pid_wait();
 
-  //chassis.pid_turn_set(45_deg, TURN_SPEED);
   //chassis.pid_wait();
 
   //chassis.pid_turn_set(0_deg, TURN_SPEED);

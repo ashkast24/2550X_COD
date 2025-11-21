@@ -68,7 +68,7 @@ void initialize() {
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.autons_add({
       //{"Drive\n\nDrive forward and come back", drive_example},
-      {"My Custom Auton\n\nDescription here", my_custom_auton},
+      //{"My Custom Auton\n\nDescription here", my_custom_auton},
       //{"Pure Pursuit\n\nGo to (0, 30) and pass through (6, 10) on the way.  Come back to (0, 0)", odom_pure_pursuit_example},
       //{"Swing Turn\n\nSwing in an 'S' curve", swing_example},
       //{"Pure Pursuit\n\nGo to (0, 30) and pass through (6, 10) on the way.  Come back to (0, 0)", odom_pure_pursuit_example},
