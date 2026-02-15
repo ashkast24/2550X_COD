@@ -186,14 +186,21 @@ void my_skills_auton() {
   //
   // Matchloader.set(true); // down
 
-  Front_approach_to_distance(600, 25, 5000);
+  chassis.drive_brake_set(pros::E_MOTOR_BRAKE_COAST);
+  Front_approach_to_distance(600, 80, 5000);
+  pros::delay(200);
 
-  pros::delay(500);
-
+  chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD);
   chassis.pid_turn_set(90_deg, TURN_SPEED);
   chassis.pid_wait();
 
-  Front_approach_to_distance(400, 25, 5000);
+  chassis.pid_targets_reset();
+  chassis.drive_sensor_reset();
+  chassis.drive_set(0, 0);
+
+  chassis.drive_brake_set(pros::E_MOTOR_BRAKE_COAST);
+  pros::delay(50);
+  Front_approach_to_distance(400, 80, 5000);
 }
 
 ///
@@ -574,19 +581,21 @@ void test_read_sensor() {
  * The function uses a simple proportional control loop to drive toward the target distance, and it also has some extra features like ramping down the speed when  * it gets close and checking for stability before exiting.
  * You can call this function in your autons or even in opcontrol to have the robot approach a wall to a certain distance. Just make sure to tune the parameters   * (like the target distance, speed, and timeout) for your specific use case and robot.
  */
-void Front_approach_to_distance(double target_mm, int speed, int timeout_ms) {
+void Front_approach_to_distance(double target_mm, int max_speed, int timeout_ms) {
   // 1000.0 25 5000
 
-  const int SAMPLES = 5;  // Averaging 5 samples for smooth, reliable readings
-  const int STABLE_REQUIRED = 3;
+  const int SAMPLES = 5;           // Averaging 5 samples for smooth, reliable readings
+  const int STABLE_REQUIRED = 3;   // Require 3 consecutive stable readings before exiting
   const double TOL_MM = 10.0;      // margin of error for being "at target"
   const double RAMP_DIST = 100.0;  // start slowing down when within this distance of target
+  const int MIN_POWER = 45;        // minimum power to actually move the robot
+  const int LOOP_DELAY_MS = 20;    // delay between control loop iterations
 
   int elapsed = 0;
   int stable = 0;
-  printf("=======================================================\n");
 
-  printf("Ashrith debugging 1 - target: %.1f mm, speed: %d, timeout: %d ms\n", target_mm, speed, timeout_ms);
+  printf("=======================================================\n");
+  printf("Ashrith debugging 1 - target: %.1f mm, speed: %d, timeout: %d ms\n", target_mm, max_speed, timeout_ms);
 
   ez::screen_print("Approaching wall...", 1);
 
@@ -596,20 +605,18 @@ void Front_approach_to_distance(double target_mm, int speed, int timeout_ms) {
     double sum = 0.0;
     // samples for averaging - this helps smooth out the sensor readings and makes the control more reliable
     for (int i = 0; i < SAMPLES; i++) {
-      double dist = get_front_distance_from_center_mm();
-      sum += dist;
-      pros::delay(20);
-      elapsed += 20;
+      sum += get_front_distance_from_center_mm();
+      pros::delay(LOOP_DELAY_MS);
+      elapsed += LOOP_DELAY_MS;
     }
-
     double mean_dist = sum / SAMPLES;
 
     printf("Ashrith debugging 2 - sum: %.1f, elapsed: %d ms, mean_dist: %.1f mm\n", sum, elapsed, mean_dist);
 
     // If we go past the target distance, we can exit the loop and proceed to next step
     if (mean_dist <= target_mm) {
-      ez::screen_print("At target distance!", 2);
-      printf("Ashrith debugging 3a - mean_dist: %.1f mm is within target distance %.1f mm\n", mean_dist, target_mm);
+      ez::screen_print("At/inside target distance!", 2);
+      printf("Ashrith debugging 3 - mean_dist: %.1f mm is within target distance %.1f mm\n", mean_dist, target_mm);
       break;
     }
 
@@ -634,14 +641,7 @@ void Front_approach_to_distance(double target_mm, int speed, int timeout_ms) {
 
     // Direction & ramping
     // The further we are from the target, the faster we should go (up to max speed), and the closer we get, the more we should slow down for finer control. If we're past the target (negative error), we need to back up, otherwise we drive forward.
-    double error = mean_dist - target_mm; // how far we are from the target distance (positive if we're too far, negative if we overshot)
-    int base_speed = speed;
-    int slow_speed = speed / 3; // slow down to 1/3 speed
-    if (slow_speed < 20) slow_speed = 20;
-    if (fabs(error) <= RAMP_DIST) base_speed = slow_speed; // if we're within the ramp distance, slow down for finer control
-    
-    int use_speed = base_speed; // default to full speed
-    // int use_speed = (error > 0.0) ? base_speed : -base_speed; // if error is positive, we need to move forward, otherwise we need to move backward (if we overshoot)
+    double error = mean_dist - target_mm;  // how far we are from the target distance (positive if we're too far, negative if we overshot)
 
     // Stability check: require consecutive in-tolerance readings
     // This helps prevent overshooting and ensures we are actually at the target distance before exiting
@@ -650,53 +650,36 @@ void Front_approach_to_distance(double target_mm, int speed, int timeout_ms) {
     if (fabs(error) <= TOL_MM) {
       if (++stable >= STABLE_REQUIRED) {
         ez::screen_print("At target distance!", 2);
-        printf("Ashrith debugging 3b - error: %.1f mm, use_speed: %d, stable: %d\n", error, use_speed, stable);
+        printf("Ashrith debugging 5 - error: %.1f mm, max_speed: %d, stable: %d\n", error, max_speed, stable);
         break;
       }
     } else {
       stable = 0;
     }
 
-    printf("Ashrith debugging 5a - error: %.1f mm, use_speed: %d, stable: %d\n", error, use_speed, stable);
-
-    // If chassis detected interference (bumping), stop and abort
-    // if (chassis.interfered) {
-    //   ez::screen_print("Interference detected, aborting", 2);
-    //   break;
-    // }
-
-    // DRIVE FORWARD (move all left motors at SPEED)
-    for (auto& motor : chassis.left_motors) {
-      // printf("Ashrith debugging AA - moving left motor with use_speed: %d\n", use_speed);
-      motor.move(use_speed);
+    int use_speed = max_speed;
+    if (fabs(error) <= RAMP_DIST) {
+      // Ramp down speed as we approach target for finer control
+      use_speed = std::max(max_speed / 3, MIN_POWER);
     }
-    // DRIVE FORWARD (move all right motors at SPEED)
-    for (auto& motor : chassis.right_motors) {
-      // printf("Ashrith debugging AA - moving right motor with use_speed: %d\n", use_speed);
-      motor.move(use_speed);
-    }
+    use_speed = std::max(use_speed, MIN_POWER);
 
-    printf("Ashrith debugging 5b - driving with use_speed: %d\n", use_speed);
+    // DRIVE FORWARD (move all left & right motors at SPEED)
+    for (auto& motor : chassis.left_motors) motor.move(use_speed);
+    for (auto& motor : chassis.right_motors) motor.move(use_speed);
 
-    // DEBUG OUTPUT (mean + target)
-    // printf("Mean: %.0f mm (target: %.0f mm) use_speed=%d\n", mean_dist, target_mm, use_speed);
-    // char buf[32];
-    // snprintf(buf, 32, "Dist: %.0f mm", mean_dist);
-    // ez::screen_print(buf, 2);
+    double left_vel = chassis.left_motors[0].get_actual_velocity();
+    double right_vel = chassis.right_motors[0].get_actual_velocity();
+    double left_pos = chassis.left_motors[0].get_position();
+    double right_pos = chassis.right_motors[0].get_position();
+    printf("Ashrith debugging 5b - CMD=%d | Lvel=%.2f Rvel=%.2f | Lpos=%.2f Rpos=%.2f\n", use_speed, left_vel, right_vel, left_pos, right_pos);
   }
 
-  // STOP ALL MOTORS - explicitly brake them like the example
-  for (auto& motor : chassis.left_motors) {
-    // printf("Ashrith debugging BB - braking left motor\n");
-    // motor.brake();
-  }
-  for (auto& motor : chassis.right_motors) {
-    // printf("Ashrith debugging BB - braking right motor\n");
-    // motor.brake();
-  }
-
+  // STOP ALL MOTORS - explicitly set move to 0 for all motors to ensure the robot stops moving after the loop
+  for (auto& motor : chassis.left_motors) motor.move(0);
+  for (auto& motor : chassis.right_motors) motor.move(0);
   printf("Ashrith debugging 5c - stopped motors\n");
-  
-  pros::delay(50);
+  pros::delay(50);  // small delay to ensure motors have time to stop
+
   printf("Ashrith debugging 6 - finished loop, elapsed: %d ms\n", elapsed);
 }
