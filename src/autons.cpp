@@ -15,18 +15,18 @@ const int SWING_SPEED = 110;
 ///
 void default_constants() {
   // P, I, D, and Start I
-  chassis.pid_drive_constants_set(10, 0, 40);         // Fwd/rev constants, used for odom and non odom motions
+  chassis.pid_drive_constants_set(15.0, 0.0, 135.0);         // Fwd/rev constants, used for odom and non odom motions
   chassis.pid_heading_constants_set(11.0, 0.0, 20.0);        // Holds the robot straight while going forward without odom
-  chassis.pid_turn_constants_set(4, 0, 28, 0);     // Turn in place constants
+  chassis.pid_turn_constants_set(5, 0, 42, 0);               // Turn in place constants
   chassis.pid_swing_constants_set(6.0, 0.0, 65.0);           // Swing constants (DON'T USE THIS)
   chassis.pid_odom_angular_constants_set(2.0, 0.0, 20.0);    // Angular control for odom motions (using angle that you provide). Angular is for Position. This is PURE PERSUIT
   chassis.pid_odom_boomerang_constants_set(3.5, 0.0, 20.0);  // Angular control for boomerang motions (using angle that it percieves as the best angle to turn to). Boomerang is for Angle
 
- //Ask what these constants mean and about which of these constants to use; Ask if I still need to tune pid_turn_constants since im using odom so odom_angular_constants should be enough. Ask if odom_boomerang_constants are really necessary.
- //Ask if I just need to tune these constants, then wheel diameter and then distance to center of the robot and then I can proceed to making autons.
- // Ask which one of the turning commands works best and is the one that I should use for turning in autons.
+  // Ask what these constants mean and about which of these constants to use; Ask if I still need to tune pid_turn_constants since im using odom so odom_angular_constants should be enough. Ask if odom_boomerang_constants are really necessary.
+  // Ask if I just need to tune these constants, then wheel diameter and then distance to center of the robot and then I can proceed to making autons.
+  //  Ask which one of the turning commands works best and is the one that I should use for turning in autons.
 
- //Tune Drive PID and Turn PID, then tune wheel diameter, then distance to center of the robot. Then tune odom_angular_constants and odom_boomerang_constants. Then make autons using pid_odom_set for driving and pid_turn_set for turning. Use example autons below for help with functions. 
+  // Tune Drive PID and Turn PID, then tune wheel diameter, then distance to center of the robot. Then tune odom_angular_constants and odom_boomerang_constants. Then make autons using pid_odom_set for driving and pid_turn_set for turning. Use example autons below for help with functions.
 
   // Exit conditions
   chassis.pid_turn_exit_condition_set(90_ms, 3_deg, 250_ms, 7_deg, 500_ms, 500_ms);
@@ -45,7 +45,7 @@ void default_constants() {
 
   // The amount that turns are prioritized over driving in odom motions
   // - if you have tracking wheels, you can run this higher.  1.0 is the max
-  //Tune odom pid constants first, then set this
+  // Tune odom pid constants first, then set this
   chassis.odom_turn_bias_set(0.9);
 
   chassis.odom_look_ahead_set(7_in);           // This is how far ahead in the path the robot looks at
@@ -59,7 +59,6 @@ void default_constants() {
 // My Autonomous
 ///
 void my_custom_auton() {
-  
   const int DRIVE_SPEED_1 = 75;
   const int DRIVE_SPEED_2 = 50;
   const int DRIVE_SPEED_3 = 110;
@@ -67,19 +66,17 @@ void my_custom_auton() {
   const int DRIVE_SPEED_5 = 90;
   const int DRIVE_SPEED_6 = 100;
 
-
-
-// 7 BALL HIGH GOAL AUTONOMOUS CODE 
-  //Stopper.set(true);
+  // 7 BALL HIGH GOAL AUTONOMOUS CODE
+  // Stopper.set(true);
   chassis.pid_drive_set(8_in, DRIVE_SPEED_3, true);
   chassis.pid_wait();
   chassis.pid_turn_set(-90_deg, TURN_SPEED);
   chassis.pid_wait();
   intake1.move(-127);
-  //intake2.move(-127);
+  // intake2.move(-127);
   chassis.pid_drive_set(32_in, DRIVE_SPEED_2, true);
   pros::delay(2000);
-  //intake1.move(0);
+  // intake1.move(0);
   chassis.pid_wait();
   chassis.pid_drive_set(-25.5_in, DRIVE_SPEED_3, true);
   chassis.pid_wait();
@@ -91,7 +88,6 @@ void my_custom_auton() {
   chassis.pid_wait();
   chassis.pid_turn_set(90_deg, TURN_SPEED);
   chassis.pid_wait();
-  Ramp.set(true);
   chassis.pid_wait();
   chassis.pid_drive_set(-17.5_in, DRIVE_SPEED_3, true);
   chassis.pid_wait();
@@ -102,7 +98,7 @@ void my_custom_auton() {
   chassis.pid_wait();
   intake1.move(0);
   intake2.move(0);
-  Matchloader.set(true); // down
+  Matchloader.set(true);  // down
   intake1.move(-127);
   chassis.pid_wait();
   chassis.pid_drive_set(33_in, DRIVE_SPEED_3, true);
@@ -114,12 +110,10 @@ void my_custom_auton() {
   intake2.move(-127);
 }
 
-
 ///
 // My Second Custom Auton
 ///
 void my_second_auton() {
-  
   const int DRIVE_SPEED_1 = 75;
   const int DRIVE_SPEED_2 = 50;
   const int DRIVE_SPEED_3 = 110;
@@ -127,10 +121,8 @@ void my_second_auton() {
   const int DRIVE_SPEED_5 = 90;
   const int DRIVE_SPEED_6 = 100;
 
-
-
-//4 + 3 Auton CODE 
-  Matchloader.set(true); // down
+  // 4 + 3 Auton CODE
+  Matchloader.set(true);  // down
   chassis.pid_wait();
   chassis.pid_drive_set(31_in, DRIVE_SPEED_3, true);
   chassis.pid_wait();
@@ -142,7 +134,6 @@ void my_second_auton() {
   chassis.pid_wait();
   pros::delay(240);
   chassis.pid_wait();
-  Ramp.set(true);
   chassis.pid_wait();
   intake1.move(0);
   chassis.pid_drive_set(-32_in, DRIVE_SPEED_3, true);
@@ -151,9 +142,9 @@ void my_second_auton() {
   intake2.move(-127);
   chassis.pid_wait();
   pros::delay(2200);
-  //Scored the high goal
-  
-  //intake1.move(0);
+  // Scored the high goal
+
+  // intake1.move(0);
   intake2.move(0);
   chassis.pid_wait();
   chassis.pid_drive_set(15_in, DRIVE_SPEED_5, true);
@@ -162,15 +153,15 @@ void my_second_auton() {
   chassis.pid_wait();
   chassis.pid_drive_set(24_in, DRIVE_SPEED_3, true);
   chassis.pid_wait();
-  Matchloader.set(false); // up
+  Matchloader.set(false);  // up
   chassis.pid_turn_set(-90_deg, TURN_SPEED);
   chassis.pid_wait();
-  //intake1.move(-127);
+  // intake1.move(-127);
   chassis.pid_wait();
   chassis.pid_drive_set(28_in, DRIVE_SPEED_2, true);
   pros::delay(1500);
   chassis.pid_wait();
-  //intake1.move(0);
+  // intake1.move(0);
   chassis.pid_drive_set(-8_in, DRIVE_SPEED_6, true);
   chassis.pid_wait();
   chassis.pid_turn_set(225_deg, TURN_SPEED);
@@ -181,12 +172,10 @@ void my_second_auton() {
   intake1.move(110);
 }
 
-
 ///
 // My Skills Auton
 ///
 void my_skills_auton() {
-  
   const int DRIVE_SPEED_1 = 75;
   const int DRIVE_SPEED_2 = 50;
   const int DRIVE_SPEED_3 = 110;
@@ -194,143 +183,18 @@ void my_skills_auton() {
   const int DRIVE_SPEED_5 = 90;
   const int DRIVE_SPEED_6 = 100;
 
+  //
+  // Matchloader.set(true); // down
 
+  Front_approach_to_distance(600, 25, 5000);
 
-//
-  Matchloader.set(true); // down
-  chassis.pid_wait();
-  chassis.pid_drive_set(31_in, DRIVE_SPEED_3, true);
-  chassis.pid_wait();
+  pros::delay(500);
+
   chassis.pid_turn_set(90_deg, TURN_SPEED);
   chassis.pid_wait();
-  intake1.move(-127);
-  chassis.pid_wait();
-  chassis.pid_drive_set(11_in, DRIVE_SPEED_3, true);
-  chassis.pid_wait();
-  pros::delay(1500);
-  chassis.pid_wait();
-  Ramp.set(true);
-  chassis.pid_wait();
-  intake1.move(0);
-  chassis.pid_drive_set(-30_in, DRIVE_SPEED_3, true);
-  chassis.pid_wait();
-  intake1.move(-127);
-  intake2.move(-127);
-  chassis.pid_wait();
-  pros::delay(4000);
-  Matchloader.set(false); // up
-  intake1.move(0);
-  intake2.move(0);
-  chassis.pid_wait();
-  //Scored the high goal
 
-  /*chassis.pid_drive_set(10_in, DRIVE_SPEED_3, true);
-  chassis.pid_wait();
-  chassis.pid_turn_set(0_deg, TURN_SPEED);
-  chassis.pid_wait();
-  chassis.pid_drive_set(12_in, DRIVE_SPEED_3, true);
-  chassis.pid_wait();
-  chassis.pid_turn_set(-90_deg, TURN_SPEED);
-  chassis.pid_wait();
-  chassis.pid_drive_set(75_in, DRIVE_SPEED_3, true);
-  chassis.pid_wait();
-  chassis.pid_turn_set(180_deg, TURN_SPEED);
-  chassis.pid_wait();
-  chassis.pid_drive_set(10_in, DRIVE_SPEED_3, true);
-  chassis.pid_wait();
-  chassis.pid_turn_set(-90_deg, TURN_SPEED);
-  chassis.pid_wait();
-  Matchloader.set(true);
-  intake1.move(-127);
-  chassis.pid_wait();
-  chassis.pid_drive_set(20_in, DRIVE_SPEED_3, true);
-  chassis.pid_wait();
-  pros::delay(1500);
-  chassis.pid_wait();
-  Ramp.set(true);
-  chassis.pid_wait();
-  intake1.move(0);
-  chassis.pid_drive_set(-30_in, DRIVE_SPEED_3, true);
-  chassis.pid_wait();
-  intake1.move(-127);
-  intake2.move(-127);
-  chassis.pid_wait();
-  pros::delay(4000);
-  Matchloader.set(false); // up
-  intake1.move(0);
-  intake2.move(0);
-  chassis.pid_wait();
-  chassis.pid_drive_set(10_in, DRIVE_SPEED_3, true);
-  chassis.pid_wait();
-  chassis.pid_turn_set(180_deg, TURN_SPEED);
-  chassis.pid_wait();
-  chassis.pid_drive_set(92_in, DRIVE_SPEED_3, true);
-  chassis.pid_wait();
-  chassis.pid_turn_set(-90_deg, TURN_SPEED);
-  chassis.pid_wait();
-  Matchloader.set(true);
-  intake1.move(-127);
-  chassis.pid_wait();
-  chassis.pid_drive_set(20_in, DRIVE_SPEED_3, true);
-  chassis.pid_wait();
-  pros::delay(1500);
-  chassis.pid_wait();
-  Ramp.set(true);
-  chassis.pid_wait();
-  intake1.move(0);
-  chassis.pid_drive_set(-32_in, DRIVE_SPEED_3, true);
-  chassis.pid_wait();
-  intake1.move(-127);
-  intake2.move(-127);
-  chassis.pid_wait();
-  pros::delay(4000);
-  Matchloader.set(false); // up
-  intake1.move(0);
-  intake2.move(0);
-  chassis.pid_wait();
-  //Scored the high goal
-
-  chassis.pid_drive_set(10_in, DRIVE_SPEED_3, true);
-  chassis.pid_wait();
-  chassis.pid_turn_set(180_deg, TURN_SPEED);
-  chassis.pid_wait();
-  chassis.pid_drive_set(15_in, DRIVE_SPEED_3, true);
-  chassis.pid_wait();
-  chassis.pid_turn_set(90_deg, TURN_SPEED);
-  chassis.pid_wait();
-  chassis.pid_drive_set(75_in, DRIVE_SPEED_3, true);
-  chassis.pid_wait();
-  chassis.pid_turn_set(0_deg, TURN_SPEED);
-  chassis.pid_wait();
-  chassis.pid_drive_set(10_in, DRIVE_SPEED_3, true);
-  chassis.pid_wait();
-  chassis.pid_turn_set(90_deg, TURN_SPEED);
-  chassis.pid_wait();
-  Matchloader.set(true);
-  intake1.move(-127);
-  chassis.pid_wait();
-  chassis.pid_drive_set(20_in, DRIVE_SPEED_3, true);
-  chassis.pid_wait();
-  pros::delay(1500);
-  chassis.pid_wait();
-  Ramp.set(true);
-  chassis.pid_wait();
-  intake1.move(0);
-  chassis.pid_drive_set(-30_in, DRIVE_SPEED_3, true);
-  chassis.pid_wait();
-  intake1.move(-127);
-  intake2.move(-127);
-  chassis.pid_wait();
-  pros::delay(4000);
-  */
-
-
-  
-
+  Front_approach_to_distance(400, 25, 5000);
 }
-
-
-
 
 ///
 // Drive Example
@@ -341,17 +205,15 @@ void drive_example() {
   // The third parameter is a boolean (true or false) for enabling/disabling a slew at the start of drive motions
   // for slew, only enable it when the drive distance is greater than the slew distance + a few inches
 
-  chassis.pid_drive_set(24_in, DRIVE_SPEED, true);
-  chassis.pid_wait();
-  chassis.pid_drive_set(-24_in, DRIVE_SPEED);
-  chassis.pid_wait();
-  //chassis.pid_drive_set(-10_in, DRIVE_SPEED);
+  // Front_approach_to_distance(600.0, 25, 5000);
+  // chassis.pid_wait();
+  // chassis.pid_drive_set(-10_in, DRIVE_SPEED);
 
-  //chassis.pid_drive_set(-12_in, DRIVE_SPEED);
-  //chassis.pid_wait();
+  // chassis.pid_drive_set(-12_in, DRIVE_SPEED);
+  // chassis.pid_wait();
 
-  //chassis.pid_drive_set(-12_in, DRIVE_SPEED);
-  //chassis.pid_wait();
+  // chassis.pid_drive_set(-12_in, DRIVE_SPEED);
+  // chassis.pid_wait();
 }
 
 ///
@@ -363,15 +225,13 @@ void turn_example() {
 
   chassis.pid_turn_set(90_deg, TURN_SPEED, true);
   chassis.pid_wait();
-  chassis.pid_turn_set(0_deg, TURN_SPEED, true);
-  chassis.pid_wait();
 
-  //chassis.pid_wait();
+  // chassis.pid_wait();
 
-  //chassis.pid_turn_set(0_deg, TURN_SPEED);
-  //chassis.pid_wait();
+  // chassis.pid_turn_set(0_deg, TURN_SPEED);
+  // chassis.pid_wait();
 
-  //chassis.pid_drive_set(10_in, DRIVE_SPEED, true);
+  // chassis.pid_drive_set(10_in, DRIVE_SPEED, true);
 }
 
 ///
@@ -548,7 +408,7 @@ void odom_drive_example() {
 // Odom Pure Pursuit
 ///
 void odom_pure_pursuit_example() {
-   //Drive to 24, 24 and pass through 0, 24 on the way, with slew
+  // Drive to 24, 24 and pass through 0, 24 on the way, with slew
   intake1.move(127);
   chassis.pid_odom_set({{0_in, 10_in, 0_deg}, fwd, DRIVE_SPEED},
                        true);
@@ -560,26 +420,26 @@ void odom_pure_pursuit_example() {
   chassis.pid_wait();
   chassis.pid_drive_set(10_in, DRIVE_SPEED, true);
   intake2.move(-127);
-    chassis.pid_wait();
-  //chassis.pid_drive_set(30_in, DRIVE_SPEED, true);
-  //chassis.pid_wait();
-  //chassis.pid_turn_set(-135_deg, TURN_SPEED);
-  //Bruhh.set(true);
-  //chassis.pid_drive_set(-24_in, DRIVE_SPEED, true);
-  //chassis.pid_wait();
-  //chassis.pid_drive_set(24_in, DRIVE_SPEED, true);
-  //Bruhh.set(false);
-  //chassis.pid_turn_set(90_deg, TURN_SPEED);
-  //chassis.pid_drive_set(52_in, DRIVE_SPEED, true);
-  //chassis.pid_wait();
-  //chassis.pid_turn_set(135_deg, TURN_SPEED);
-  //chassis.pid_drive_set(-24_in, DRIVE_SPEED, true);
-  //chassis.pid_wait();
+  chassis.pid_wait();
+  // chassis.pid_drive_set(30_in, DRIVE_SPEED, true);
+  // chassis.pid_wait();
+  // chassis.pid_turn_set(-135_deg, TURN_SPEED);
+  // Bruhh.set(true);
+  // chassis.pid_drive_set(-24_in, DRIVE_SPEED, true);
+  // chassis.pid_wait();
+  // chassis.pid_drive_set(24_in, DRIVE_SPEED, true);
+  // Bruhh.set(false);
+  // chassis.pid_turn_set(90_deg, TURN_SPEED);
+  // chassis.pid_drive_set(52_in, DRIVE_SPEED, true);
+  // chassis.pid_wait();
+  // chassis.pid_turn_set(135_deg, TURN_SPEED);
+  // chassis.pid_drive_set(-24_in, DRIVE_SPEED, true);
+  // chassis.pid_wait();
 
   // Drive to 0, 0 backwards
-  //chassis.pid_odom_set({{0_in, 0_in}, rev, DRIVE_SPEED},
-                       //true);
-  //chassis.pid_wait();
+  // chassis.pid_odom_set({{0_in, 0_in}, rev, DRIVE_SPEED},
+  // true);
+  // chassis.pid_wait();
 }
 
 ///
@@ -604,9 +464,9 @@ void odom_boomerang_example() {
                        true);
   chassis.pid_wait();
 
-  //chassis.pid_odom_set({{0_in, 0_in, 0_deg}, rev, DRIVE_SPEED},
-                       //true);
-  //chassis.pid_wait();
+  // chassis.pid_odom_set({{0_in, 0_in, 0_deg}, rev, DRIVE_SPEED},
+  // true);
+  // chassis.pid_wait();
 }
 
 ///
@@ -639,7 +499,7 @@ void measure_offsets() {
   if (chassis.odom_tracker_right != nullptr) chassis.odom_tracker_right->reset();
   if (chassis.odom_tracker_back != nullptr) chassis.odom_tracker_back->reset();
   if (chassis.odom_tracker_front != nullptr) chassis.odom_tracker_front->reset();
-  
+
   for (int i = 0; i < iterations; i++) {
     // Reset pid targets and get ready for running an auton
     chassis.pid_targets_reset();
@@ -687,3 +547,156 @@ void measure_offsets() {
 // . . .
 // Make your own autonomous functions here!
 // . . .
+
+///
+// Test: Read Sensor 10 Times
+///
+
+void test_read_sensor() {
+  ez::screen_print("Reading sensor...", 1);
+
+  for (int i = 0; i < 10; ++i) {
+    double dist = get_left_distance_from_center_mm();  // read the sensor
+    std::string msg = "Read " + std::to_string(i + 1) + ": " + util::to_string_with_precision(dist) + " mm";
+    ez::screen_print(msg, i + 2);                  // print to screen (line i+2)
+    printf("Sensor read %d: %.1f mm\n", i, dist);  // also print to terminal
+    pros::delay(200);                              // wait 200 ms between reads
+  }
+
+  ez::screen_print("Done!", 8);
+}
+
+/*
+ * This is custom function that you can make to do something more specific that isn't already built in.
+ * In this case, this function will use the front distance sensor to approach a wall to a target distance.
+ * It will drive forward until it is within the target distance of the wall, and it will do this for a maximum amount of time.
+ * This is useful for lining up with a wall or approaching a goal.
+ * The function uses a simple proportional control loop to drive toward the target distance, and it also has some extra features like ramping down the speed when  * it gets close and checking for stability before exiting.
+ * You can call this function in your autons or even in opcontrol to have the robot approach a wall to a certain distance. Just make sure to tune the parameters   * (like the target distance, speed, and timeout) for your specific use case and robot.
+ */
+void Front_approach_to_distance(double target_mm, int speed, int timeout_ms) {
+  // 1000.0 25 5000
+
+  const int SAMPLES = 5;  // Averaging 5 samples for smooth, reliable readings
+  const int STABLE_REQUIRED = 3;
+  const double TOL_MM = 10.0;      // margin of error for being "at target"
+  const double RAMP_DIST = 100.0;  // start slowing down when within this distance of target
+
+  int elapsed = 0;
+  int stable = 0;
+  printf("=======================================================\n");
+
+  printf("Ashrith debugging 1 - target: %.1f mm, speed: %d, timeout: %d ms\n", target_mm, speed, timeout_ms);
+
+  ez::screen_print("Approaching wall...", 1);
+
+  // Main control loop: keep running until we hit the timeout (no matter what happens)
+  // Program exits the loop if it reaches the target distance from the wall through the break statements, but this timeout is a safety in case something goes wrong and the robot can't reach the target distance
+  while (elapsed < timeout_ms) {
+    double sum = 0.0;
+    // samples for averaging - this helps smooth out the sensor readings and makes the control more reliable
+    for (int i = 0; i < SAMPLES; i++) {
+      double dist = get_front_distance_from_center_mm();
+      sum += dist;
+      pros::delay(20);
+      elapsed += 20;
+    }
+
+    double mean_dist = sum / SAMPLES;
+
+    printf("Ashrith debugging 2 - sum: %.1f, elapsed: %d ms, mean_dist: %.1f mm\n", sum, elapsed, mean_dist);
+
+    // If we go past the target distance, we can exit the loop and proceed to next step
+    if (mean_dist <= target_mm) {
+      ez::screen_print("At target distance!", 2);
+      printf("Ashrith debugging 3a - mean_dist: %.1f mm is within target distance %.1f mm\n", mean_dist, target_mm);
+      break;
+    }
+
+    // Extra diagnostics: raw sensor debug
+    // double raw = frontDist.get(); // mm (sensor raw)
+    // printf("Ashrith debugging 1b - raw sensor: %.1f mm\n", raw);
+
+    // Wall Despawned / too far. Likely not to happen as long as the robot starts at a reasonale distance from the wall,
+    // but this is a safety check
+    if (mean_dist > 1500.0) {
+      ez::screen_print("No wall detected!", 2);
+      printf("Ashrith debugging 4 - mean_dist: %.1f mm is too far, likely no wall\n", mean_dist);
+      break;
+    }
+
+    // Emergency safety: if robot gets very close, stop now
+    // const double MIN_SAFE_MM = 75.0; // don't let robot get closer than this
+    // if (mean_dist <= MIN_SAFE_MM) {
+    //   ez::screen_print("EMERGENCY STOP: too close!", 2);
+    //   break;
+    // }
+
+    // Direction & ramping
+    // The further we are from the target, the faster we should go (up to max speed), and the closer we get, the more we should slow down for finer control. If we're past the target (negative error), we need to back up, otherwise we drive forward.
+    double error = mean_dist - target_mm; // how far we are from the target distance (positive if we're too far, negative if we overshot)
+    int base_speed = speed;
+    int slow_speed = speed / 3; // slow down to 1/3 speed
+    if (slow_speed < 20) slow_speed = 20;
+    if (fabs(error) <= RAMP_DIST) base_speed = slow_speed; // if we're within the ramp distance, slow down for finer control
+    
+    int use_speed = base_speed; // default to full speed
+    // int use_speed = (error > 0.0) ? base_speed : -base_speed; // if error is positive, we need to move forward, otherwise we need to move backward (if we overshoot)
+
+    // Stability check: require consecutive in-tolerance readings
+    // This helps prevent overshooting and ensures we are actually at the target distance before exiting
+    // If the error is within the tolerance, increment stable counter, otherwise reset it
+    // If we have enough consecutive stable readings, we can exit the loop
+    if (fabs(error) <= TOL_MM) {
+      if (++stable >= STABLE_REQUIRED) {
+        ez::screen_print("At target distance!", 2);
+        printf("Ashrith debugging 3b - error: %.1f mm, use_speed: %d, stable: %d\n", error, use_speed, stable);
+        break;
+      }
+    } else {
+      stable = 0;
+    }
+
+    printf("Ashrith debugging 5a - error: %.1f mm, use_speed: %d, stable: %d\n", error, use_speed, stable);
+
+    // If chassis detected interference (bumping), stop and abort
+    // if (chassis.interfered) {
+    //   ez::screen_print("Interference detected, aborting", 2);
+    //   break;
+    // }
+
+    // DRIVE FORWARD (move all left motors at SPEED)
+    for (auto& motor : chassis.left_motors) {
+      // printf("Ashrith debugging AA - moving left motor with use_speed: %d\n", use_speed);
+      motor.move(use_speed);
+    }
+    // DRIVE FORWARD (move all right motors at SPEED)
+    for (auto& motor : chassis.right_motors) {
+      // printf("Ashrith debugging AA - moving right motor with use_speed: %d\n", use_speed);
+      motor.move(use_speed);
+    }
+
+    printf("Ashrith debugging 5b - driving with use_speed: %d\n", use_speed);
+
+    // DEBUG OUTPUT (mean + target)
+    // printf("Mean: %.0f mm (target: %.0f mm) use_speed=%d\n", mean_dist, target_mm, use_speed);
+    // char buf[32];
+    // snprintf(buf, 32, "Dist: %.0f mm", mean_dist);
+    // ez::screen_print(buf, 2);
+  }
+
+  // STOP ALL MOTORS - explicitly brake them like the example
+  for (auto& motor : chassis.left_motors) {
+    // printf("Ashrith debugging BB - braking left motor\n");
+    // motor.brake();
+  }
+  for (auto& motor : chassis.right_motors) {
+    // printf("Ashrith debugging BB - braking right motor\n");
+    // motor.brake();
+  }
+
+  printf("Ashrith debugging 5c - stopped motors\n");
+  
+  pros::delay(50);
+  printf("Ashrith debugging 6 - finished loop, elapsed: %d ms\n", elapsed);
+}

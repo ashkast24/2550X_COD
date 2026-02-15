@@ -12,7 +12,7 @@ ez::Drive chassis(
     {-11, -12, 14},     // Left Chassis Ports (negative port will reverse it!)
     {1, 2, -4},  // Right Chassis Ports (negative port will reverse it!)
 
-    15,      // IMU Port 
+    7,      // IMU Port 
     3.25,  // Wheel Diameter (Remember, 4" wheels without screw holes are actually 4.125!)
     450);   // Wheel RPM = cartridge * (motor gear / wheel gear)
 
@@ -67,9 +67,10 @@ void initialize() {
 
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.autons_add({
+        //{"Test: Read Sensor", test_read_sensor},
       //{"Drive\n\nDrive forward and come back", drive_example},
       //{"My Custom Auton\n\nDescription here", my_custom_auton},
-      //{"My Second Custom Auton\n\nDescription here", my_second_auton},
+      //{"My Second Custom Auton\n\23nDescription here", my_second_auton},
       {"My Skills Auton\n\nDescription here", my_skills_auton},
       //{"Pure Pursuit\n\nGo to (0, 30) and pass through (6, 10) on the way.  Come back to (0, 0)", odom_pure_pursuit_example},
       //{"Swing Turn\n\nSwing in an 'S' curve", swing_example},
@@ -78,7 +79,7 @@ void initialize() {
       //{"Pure Pursuit\n\nGo to (0, 30) and pass through (6, 10) on the way.  Come back to (0, 0)", odom_pure_pursuit_example},
       //{"Turn\n\nTurn 3 times.", turn_example},
       //{"Drive\n\nDrive forward and come back", drive_example},
-      //{"Turn\n\nTurn 3 times.", turn_example},
+      {"Turn\n\nTurn 3 times.", turn_example},
       //{"Drive and Turn\n\nDrive forward, turn, come back", drive_and_turn},
       {"Drive and Turn\n\nSlow down during drive", wait_until_change_speed},
       //{"Swing Turn\n\nSwing in an 'S' curve", swing_example},
@@ -303,25 +304,13 @@ void opcontrol() {
 
 
 
-    //Booster control
-    /*i (master.get_digital(DIGITAL_X)) {
-      BigBigBooster.move(127);  // Spins forward at max speed
-    }
-    else if (master.get_digital(DIGITAL_B)) {
-      BigBigBooster.move(-127);  // Spins backward at max speed
-    }
-    else {
-      BigBigBooster.move(0);  // Stops the intake
-    }
-    */
 
     // Piston control
-    if (master.get_digital(DIGITAL_A)) {
-      Ramp.set(true); // up
+    if (master.get_digital(DIGITAL_LEFT)) {
+      MidPiston.set(false); // up
     }
-    else if (master.get_digital(DIGITAL_X)) {  
-      Ramp.set(false); // down
-      Stopper.set(false); // down
+    else if (master.get_digital(DIGITAL_RIGHT)) {  
+      MidPiston.set(true); // up
     }
 
      
@@ -329,17 +318,17 @@ void opcontrol() {
     if (master.get_digital(DIGITAL_UP)) {
       Matchloader.set(true); // down
     }
-    else if (master.get_digital(DIGITAL_RIGHT)) {  
+    else if (master.get_digital(DIGITAL_DOWN)) {  
       Matchloader.set(false); // up
     }
 
 
 
-    if (master.get_digital(DIGITAL_B)) {
-      Stopper.set(true); // up
+    if (master.get_digital(DIGITAL_X)) {
+      Disscore.set(true);
     }
-    else if (master.get_digital(DIGITAL_Y)) {  
-      Stopper.set(false); // down
+    else if (master.get_digital(DIGITAL_B)) {  
+      Disscore.set(false);
     }
   
    

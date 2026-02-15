@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "7_Ball",
+    "project_name": "Prosshiz",
     "target": "v5",
     "templates": {
       "EZ-Template": {

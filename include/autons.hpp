@@ -19,3 +19,6 @@ void odom_pure_pursuit_wait_until_example();
 void odom_boomerang_example();
 void odom_boomerang_injected_pure_pursuit_example();
 void measure_offsets();
+void test_read_sensor();
+void Front_approach_to_distance(double target_mm, int speed, int timeout_ms);
+
