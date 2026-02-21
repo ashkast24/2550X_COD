@@ -310,25 +310,16 @@ void opcontrol() {
       MidPiston.set(false); // up
     }
     else if (master.get_digital(DIGITAL_RIGHT)) {  
-      MidPiston.set(true); // up
+      MidPiston.set(true); // doe
     }
 
-     
-    
-    if (master.get_digital(DIGITAL_UP)) {
-      Matchloader.set(true); // down
-    }
-    else if (master.get_digital(DIGITAL_DOWN)) {  
-      Matchloader.set(false); // up
-    }
-
-
+  
 
     if (master.get_digital(DIGITAL_X)) {
-      Disscore.set(true);
+      Matchloader.set(true);
     }
     else if (master.get_digital(DIGITAL_B)) {  
-      Disscore.set(false);
+      Matchloader.set(false);
     }
   
    

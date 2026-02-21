@@ -59,55 +59,61 @@ void default_constants() {
 // My Autonomous
 ///
 void my_custom_auton() {
+
   const int DRIVE_SPEED_1 = 75;
   const int DRIVE_SPEED_2 = 50;
   const int DRIVE_SPEED_3 = 110;
-  const int DRIVE_SPEED_4 = 25;
+  const int DRIVE_SPEED_4 = 20;
   const int DRIVE_SPEED_5 = 90;
   const int DRIVE_SPEED_6 = 100;
 
-  // 7 BALL HIGH GOAL AUTONOMOUS CODE
-  // Stopper.set(true);
-  chassis.pid_drive_set(8_in, DRIVE_SPEED_3, true);
+
+  Matchloader.set(false);  // up
   chassis.pid_wait();
-  chassis.pid_turn_set(-90_deg, TURN_SPEED);
-  chassis.pid_wait();
-  intake1.move(-127);
-  // intake2.move(-127);
-  chassis.pid_drive_set(32_in, DRIVE_SPEED_2, true);
-  pros::delay(2000);
-  // intake1.move(0);
-  chassis.pid_wait();
-  chassis.pid_drive_set(-25.5_in, DRIVE_SPEED_3, true);
-  chassis.pid_wait();
-  chassis.pid_turn_set(0_deg, TURN_SPEED);
-  chassis.pid_wait();
-  chassis.pid_drive_set(22_in, DRIVE_SPEED_3, true);
-  intake1.move(0);
-  intake2.move(0);
+  chassis.pid_drive_set(10_in, DRIVE_SPEED);
   chassis.pid_wait();
   chassis.pid_turn_set(90_deg, TURN_SPEED);
   chassis.pid_wait();
-  chassis.pid_wait();
-  chassis.pid_drive_set(-17.5_in, DRIVE_SPEED_3, true);
-  chassis.pid_wait();
+  intake1.move(127);
+  
+  chassis.pid_drive_set(25_in, DRIVE_SPEED_2);
   pros::delay(500);
-  intake1.move(-127);
-  intake2.move(-127);
-  pros::delay(2000);
+  Matchloader.set(true);  // down
   chassis.pid_wait();
-  intake1.move(0);
+  pros::delay(1000);
+  /*chassis.pid_wait();
+  chassis.pid_drive_set(-20_in, DRIVE_SPEED);
+  chassis.pid_wait();
+  chassis.pid_turn_set(0_deg, TURN_SPEED);
+  chassis.pid_wait();
+  chassis.pid_drive_set(30_in, DRIVE_SPEED);
+  chassis.pid_wait();
+  chassis.pid_turn_set(-90_deg, TURN_SPEED);
+  chassis.pid_wait();
+  chassis.pid_drive_set(-20_in, DRIVE_SPEED);
+  pros::delay(500);
+  intake1.move(127);
+  intake2.move(127);
+  pros::delay(1500);
   intake2.move(0);
   Matchloader.set(true);  // down
-  intake1.move(-127);
   chassis.pid_wait();
-  chassis.pid_drive_set(33_in, DRIVE_SPEED_3, true);
-  chassis.pid_wait();
+  chassis.pid_drive_set(30_in, DRIVE_SPEED);
   pros::delay(300);
-  chassis.pid_wait();
-  chassis.pid_drive_set(-33_in, DRIVE_SPEED_3, true);
-  pros::delay(1000);
-  intake2.move(-127);
+  chassis.pid_drive_set(-30_in, DRIVE_SPEED);
+  pros::delay(500);
+  intake2.move(127);
+*/
+
+
+
+ 
+
+
+
+
+
+  
 }
 
 ///
@@ -117,59 +123,128 @@ void my_second_auton() {
   const int DRIVE_SPEED_1 = 75;
   const int DRIVE_SPEED_2 = 50;
   const int DRIVE_SPEED_3 = 110;
-  const int DRIVE_SPEED_4 = 25;
+  const int DRIVE_SPEED_4 = 20;
   const int DRIVE_SPEED_5 = 90;
   const int DRIVE_SPEED_6 = 100;
 
-  // 4 + 3 Auton CODE
-  Matchloader.set(true);  // down
-  chassis.pid_wait();
-  chassis.pid_drive_set(31_in, DRIVE_SPEED_3, true);
-  chassis.pid_wait();
-  chassis.pid_turn_set(90_deg, TURN_SPEED);
-  chassis.pid_wait();
-  intake1.move(-127);
-  chassis.pid_wait();
-  chassis.pid_drive_set(10_in, DRIVE_SPEED_3, true);
-  chassis.pid_wait();
-  pros::delay(240);
-  chassis.pid_wait();
-  chassis.pid_wait();
-  intake1.move(0);
-  chassis.pid_drive_set(-32_in, DRIVE_SPEED_3, true);
-  chassis.pid_wait();
-  intake1.move(-127);
-  intake2.move(-127);
-  chassis.pid_wait();
-  pros::delay(2200);
-  // Scored the high goal
+// 4 + 3   B A L L   A U T O N O M O U S    C O D E
+  
+//APPROACH MATCHLOADER
 
-  // intake1.move(0);
-  intake2.move(0);
-  chassis.pid_wait();
-  chassis.pid_drive_set(15_in, DRIVE_SPEED_5, true);
-  chassis.pid_wait();
-  chassis.pid_turn_set(180_deg, TURN_SPEED);
-  chassis.pid_wait();
-  chassis.pid_drive_set(24_in, DRIVE_SPEED_3, true);
-  chassis.pid_wait();
-  Matchloader.set(false);  // up
+  Matchloader.set(true);  // down 
+  intake1.move(127);
+
+  chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD); 
+  Front_approach_to_distance(700, 50, 2000);
+  pros::delay(200);
+  
+
+  chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD);
   chassis.pid_turn_set(-90_deg, TURN_SPEED);
   chassis.pid_wait();
-  // intake1.move(-127);
+
+  chassis.pid_targets_reset();
+  chassis.drive_sensor_reset();
+  chassis.drive_set(0, 0);
+
+  chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD); 
+  pros::delay(200);
+  Front_approach_to_distance(350, 50, 2000);
+  pros::delay(200);
+  chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD);
+  pros::delay(250);
+
+//BACK UP FROM MATCHLOADER AND SCORE IN HIGH GOAL
+
+  pros::delay(50);
+  chassis.pid_turn_set(-90_deg, TURN_SPEED);
   chassis.pid_wait();
-  chassis.pid_drive_set(28_in, DRIVE_SPEED_2, true);
-  pros::delay(1500);
-  chassis.pid_wait();
-  // intake1.move(0);
-  chassis.pid_drive_set(-8_in, DRIVE_SPEED_6, true);
-  chassis.pid_wait();
-  chassis.pid_turn_set(225_deg, TURN_SPEED);
-  chassis.pid_wait();
-  chassis.pid_drive_set(12.75_in, DRIVE_SPEED_6, true);
-  chassis.pid_wait();
+  chassis.pid_drive_set(-30_in, DRIVE_SPEED);
+  pros::delay(500);
+  intake1.move(127);
   intake2.move(127);
-  intake1.move(110);
+  pros::delay(1000);
+  intake1.move(0);
+  intake2.move(0);
+  Matchloader.set(false);  // up  
+
+
+//HEAD TO MID GOAL
+
+  chassis.pid_targets_reset();
+  chassis.drive_sensor_reset();
+  chassis.drive_set(0, 0);
+
+  chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD); 
+  pros::delay(200);
+  Front_approach_to_distance(575, 50, 2000);
+  pros::delay(200);
+  chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD);
+  
+  chassis.pid_turn_set(135_deg, TURN_SPEED);
+  chassis.pid_wait();
+  intake1.move(75);
+  chassis.pid_drive_set(45_in, DRIVE_SPEED_2);
+  chassis.pid_wait();
+  pros::delay(1000);
+  chassis.pid_wait();
+  chassis.pid_turn_set(-45_deg, TURN_SPEED);
+  chassis.pid_wait();
+  chassis.pid_drive_set(-13_in, DRIVE_SPEED);
+  pros::delay(200);
+  MidPiston.set(true); // down
+  intake2.move(50);
+  
+
+  
+  /*chassis.pid_targets_reset();
+  chassis.drive_sensor_reset();
+  chassis.drive_set(0, 0);
+
+  chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD); 
+  pros::delay(200);
+  Front_approach_to_distance(300, 50, 2000);
+  pros::delay(200);
+  chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD);
+  pros::delay(1000);
+  
+  chassis.pid_turn_set(45_deg, TURN_SPEED);
+  chassis.pid_drive_set(-30_in, DRIVE_SPEED);
+  chassis.pid_wait();
+
+  chassis.pid_turn_set(0_deg, TURN_SPEED);
+  chassis.pid_wait();
+
+  chassis.pid_targets_reset();
+  chassis.drive_sensor_reset();
+  chassis.drive_set(0, 0);
+
+  chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD); 
+  pros::delay(200);
+  Front_approach_to_distance(630, 50, 2000);
+  pros::delay(200);
+  chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD);
+  pros::delay(1000);
+
+  chassis.pid_turn_set(-90_deg, TURN_SPEED);
+  chassis.pid_wait();
+  chassis.pid_drive_set(-15_in, DRIVE_SPEED);
+  pros::delay(500);
+  intake2.move(127);
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+  
 }
 
 ///
@@ -183,12 +258,18 @@ void my_skills_auton() {
   const int DRIVE_SPEED_5 = 90;
   const int DRIVE_SPEED_6 = 100;
 
-  //
-  // Matchloader.set(true); // down
+  
+  
+  // APPROACH MATCHLOADER
 
-  chassis.drive_brake_set(pros::E_MOTOR_BRAKE_COAST);
-  Front_approach_to_distance(600, 80, 5000);
+  Matchloader.set(true);  // down  
+  intake1.move(127);
+  intake2.move(-127);
+
+  chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD); 
+  Front_approach_to_distance(700, 50, 2000);
   pros::delay(200);
+  
 
   chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD);
   chassis.pid_turn_set(90_deg, TURN_SPEED);
@@ -196,11 +277,337 @@ void my_skills_auton() {
 
   chassis.pid_targets_reset();
   chassis.drive_sensor_reset();
-  chassis.drive_set(0, 0);  
+  chassis.drive_set(0, 0);
 
-  chassis.drive_brake_set(pros::E_MOTOR_BRAKE_COAST);
+  chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD); 
+  pros::delay(200);
+  Front_approach_to_distance(350, 50, 2000);
+  pros::delay(200);
+  chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD);
+  pros::delay(2500);
+  intake1.move(-127);
+  pros::delay(200);
+  intake1.move(127);
+  pros::delay(500);
+
+
+  //BACK UP FROM MATCHLOADER
+
+  chassis.pid_turn_set(90_deg, TURN_SPEED);
+  chassis.pid_wait();
+  chassis.pid_drive_set(-15_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+
+
+  chassis.pid_turn_set(180_deg, TURN_SPEED);
+  chassis.pid_wait();
+  Matchloader.set(false);  // up
+  chassis.pid_wait();
+  chassis.pid_drive_set(18_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+
+
+  chassis.pid_turn_set(-93_deg, TURN_SPEED);
+  chassis.pid_wait();
+  chassis.pid_drive_set(85_in, DRIVE_SPEED_5, true);
+  chassis.pid_wait();
+
+  chassis.pid_targets_reset();
+  chassis.drive_sensor_reset();
+  chassis.drive_set(0, 0);
+
+  chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD); 
+  pros::delay(200);
+  Front_approach_to_distance(700, 50, 2000);
+  pros::delay(200);
+  chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD); 
+
+  chassis.pid_turn_set(0_deg, TURN_SPEED);
+  chassis.pid_wait();
+
+
+  //SCORE BALLS FROM 1ST MATCHLOADER -> 1ST HIGH GOAL
+
+  chassis.pid_targets_reset();
+  chassis.drive_sensor_reset();
+  chassis.drive_set(0, 0);
+
+  chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD); 
+  pros::delay(200);
+  Front_approach_to_distance(660, 50, 2000);
+  pros::delay(200);
+  chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD); 
+
+
+  chassis.pid_turn_set(-90_deg, TURN_SPEED);
+  chassis.pid_wait();
+  chassis.pid_drive_set(-21_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+  intake2.move(-127);
+  pros::delay(500);
+  intake2.move(127);
+  pros::delay(2500);
+
+
+
+  //APPROACH 2ND MATCHLOADER AND SCORE IN 1ST HIGH GOAL 
+
+  Matchloader.set(true);  // down
+  intake2.move(-127);
+  chassis.pid_turn_set(-96_deg, TURN_SPEED, true);
+  chassis.pid_wait();
+
+
+
+  chassis.pid_targets_reset();
+  chassis.drive_sensor_reset();
+  chassis.drive_set(0, 0);
+
+  chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD); 
+  pros::delay(200);
+  Front_approach_to_distance(350, 50, 2000);
+  pros::delay(200);
+  chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD); 
+  pros::delay(2500);
+  
+  intake1.move(-127);
+  pros::delay(200);
+  intake1.move(127);
+  pros::delay(500);
+
+
+  chassis.pid_turn_set(-90_deg, TURN_SPEED, true);
+  chassis.pid_wait();
+  chassis.pid_drive_set(-26_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+  chassis.pid_drive_set(-10_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+  intake2.move(-127);
+  pros::delay(500);
+  intake2.move(127);
+  pros::delay(2500);
+  chassis.pid_wait();
+
+
+
+
+  //chassis.odom_xyt_set(0_in, 0_in, -90_deg);
+
+
+  //APPROACH 3RD MATCHLOADER
+
+ 
+  
+  chassis.pid_turn_set(180_deg, TURN_SPEED, true);
+  chassis.pid_wait();
+  Matchloader.set(false);  // up
+  chassis.pid_wait();
+  chassis.pid_drive_set(93_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+  chassis.pid_turn_set(-90_deg, TURN_SPEED, true);
+  chassis.pid_wait();
+  Matchloader.set(true);  // down
+  intake2.move(-127);
+  chassis.pid_wait();
+
+  chassis.pid_targets_reset();
+  chassis.drive_sensor_reset();
+  chassis.drive_set(0, 0);
+
+  chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD); 
+  pros::delay(200);
+  Front_approach_to_distance(350, 50, 2000);
+  pros::delay(200);
+  chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD); 
+  pros::delay(2500);
+
+  intake1.move(-127);
+  pros::delay(200);
+  intake1.move(127);
+  pros::delay(500);
+
+  chassis.pid_turn_set(-90_deg, TURN_SPEED, true);
+  chassis.pid_wait();
+  chassis.pid_drive_set(-20_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+
+  chassis.pid_turn_set(0_deg, TURN_SPEED);
+  chassis.pid_wait();
+  chassis.pid_drive_set(5_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+
+
+  chassis.pid_turn_set(0_deg, TURN_SPEED);
+  chassis.pid_wait();
+  Matchloader.set(false);  // up
+  chassis.pid_wait();
+  chassis.pid_drive_set(18_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+
+
+  chassis.pid_turn_set(87_deg, TURN_SPEED);
+  chassis.pid_wait();
+  chassis.pid_drive_set(87_in, DRIVE_SPEED_5, true);
+  chassis.pid_wait();
+  chassis.pid_turn_set(180_deg, TURN_SPEED);
+  chassis.pid_wait();
+
+
+  //SCORE BALLS FROM 3RD MATCHLOADER -> 2ND HIGH GOAL
+
+  chassis.pid_targets_reset();
+  chassis.drive_sensor_reset();
+  chassis.drive_set(0, 0);
+
+  chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD); 
+  pros::delay(200);
+  Front_approach_to_distance(630, 50, 2000);
+  pros::delay(200);
+  chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD); 
+
+
+  chassis.pid_turn_set(90_deg, TURN_SPEED);
+  chassis.pid_wait();
+  chassis.pid_drive_set(-21_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+  intake2.move(-127);
+  pros::delay(500);
+  intake2.move(127);
+  pros::delay(2500);
+  chassis.pid_wait();
+
+  //APPROACH 4TH MATCHLOADER AND SCORE IN 2ND HIGH GOAL 
+
+  Matchloader.set(true);  // down  
+  intake2.move(-127);
+  chassis.pid_turn_set(96_deg, TURN_SPEED, true);
+  chassis.pid_wait();
+
+  chassis.pid_targets_reset();
+  chassis.drive_sensor_reset();
+  chassis.drive_set(0, 0);
+
+  chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD); 
+  pros::delay(200);
+  Front_approach_to_distance(350, 50, 2000);
+  pros::delay(200);
+  chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD); 
+  pros::delay(2500);
+  
+  intake1.move(-127);
+  pros::delay(200);
+  intake1.move(127);
+  pros::delay(500);
+
+  chassis.pid_turn_set(90_deg, TURN_SPEED, true);
+  chassis.pid_wait();
+  chassis.pid_drive_set(-30_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+  pros::delay(500);
+  intake2.move(127);
+  pros::delay(2500);
+  intake2.move(-127);
+  chassis.pid_wait();
+  pros::delay(500);
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /*chassis.pid_turn_set(-90_deg, TURN_SPEED);
+  chassis.pid_wait();
+  chassis.pid_drive_set(-17_in, DRIVE_SPEED);
+  chassis.pid_wait();
+  //intake1.move(127);
+  //intake2.move(127);
+  pros::delay(2000);
+  //intake1.move(0);
+  //intake2.move(0);
+  pros::delay(2000);
+  
+  //APPROACH 2ND MATCH LOADER
+
+  chassis.pid_targets_reset();
+  chassis.drive_sensor_reset();
+  chassis.drive_set(0, 0);
+  
+  pros::delay(200);
+  //matchloader.set(true);  // down
+  //intake1.move(127);
+
+
+  chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD); 
+  pros::delay(200);
+  Front_approach_to_distance(400, 50, 2000);
+  pros::delay(200);
+  chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD);
+  
+  pros::delay(2000);
+  //intake1.move(0);
+
+  //BACK UP FROM 2ND MATCH LOADER
+
   pros::delay(50);
-  Front_approach_to_distance(400, 80, 5000);
+  chassis.pid_wait();
+  chassis.pid_drive_set(-15_in, DRIVE_SPEED);
+  //matchloader.set(false);  // up
+  */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
 }
 
 ///
@@ -588,7 +995,7 @@ void Front_approach_to_distance(double target_mm, int max_speed, int timeout_ms)
   const int STABLE_REQUIRED = 3;   // Require 3 consecutive stable readings before exiting
   const double TOL_MM = 10.0;      // margin of error for being "at target"
   const double RAMP_DIST = 100.0;  // start slowing down when within this distance of target
-  const int MIN_POWER = 45;        // minimum power to actually move the robot
+  const int MIN_POWER = 20;        // minimum power to actually move the robot
   const int LOOP_DELAY_MS = 20;    // delay between control loop iterations
 
   int elapsed = 0;
@@ -682,4 +1089,5 @@ void Front_approach_to_distance(double target_mm, int max_speed, int timeout_ms)
   pros::delay(50);  // small delay to ensure motors have time to stop
 
   printf("Ashrith debugging 6 - finished loop, elapsed: %d ms\n", elapsed);
+  
 }
