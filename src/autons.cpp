@@ -296,21 +296,26 @@ void my_skills_auton() {
   chassis.pid_turn_set(90_deg, TURN_SPEED);
   chassis.pid_wait();
   chassis.pid_drive_set(-15_in, DRIVE_SPEED, true);
+  Matchloader.set(false);  // up
+  chassis.pid_wait();
+  chassis.pid_turn_set(90_deg, TURN_SPEED);
   chassis.pid_wait();
 
 
   chassis.pid_turn_set(180_deg, TURN_SPEED);
   chassis.pid_wait();
-  Matchloader.set(false);  // up
   chassis.pid_wait();
   chassis.pid_drive_set(18_in, DRIVE_SPEED, true);
   chassis.pid_wait();
 
 
-  chassis.pid_turn_set(-93_deg, TURN_SPEED);
+  chassis.pid_turn_set(-90_deg, TURN_SPEED);
   chassis.pid_wait();
   chassis.pid_drive_set(85_in, DRIVE_SPEED_5, true);
   chassis.pid_wait();
+  chassis.pid_turn_set(-90_deg, TURN_SPEED);
+  chassis.pid_wait();
+
 
   chassis.pid_targets_reset();
   chassis.drive_sensor_reset();
@@ -334,7 +339,7 @@ void my_skills_auton() {
 
   chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD); 
   pros::delay(200);
-  Front_approach_to_distance(660, 50, 2000);
+  Front_approach_to_distance(660, 50, 2000);  pros::delay(200);
   pros::delay(200);
   chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD); 
 
@@ -354,6 +359,9 @@ void my_skills_auton() {
 
   Matchloader.set(true);  // down
   intake2.move(-127);
+  chassis.pid_wait();
+  chassis.pid_drive_set(15_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
   chassis.pid_turn_set(-96_deg, TURN_SPEED, true);
   chassis.pid_wait();
 
@@ -365,7 +373,7 @@ void my_skills_auton() {
 
   chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD); 
   pros::delay(200);
-  Front_approach_to_distance(350, 50, 2000);
+  Front_approach_to_distance(370, 50, 2000);
   pros::delay(200);
   chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD); 
   pros::delay(2500);
@@ -376,9 +384,10 @@ void my_skills_auton() {
   pros::delay(500);
 
 
-  chassis.pid_turn_set(-90_deg, TURN_SPEED, true);
+  chassis.pid_turn_set(-93_deg, TURN_SPEED, true);
   chassis.pid_wait();
   chassis.pid_drive_set(-26_in, DRIVE_SPEED, true);
+  Matchloader.set(false);  // up
   chassis.pid_wait();
   chassis.pid_drive_set(-10_in, DRIVE_SPEED, true);
   chassis.pid_wait();
@@ -396,14 +405,24 @@ void my_skills_auton() {
 
   //APPROACH 3RD MATCHLOADER
 
- 
-  
   chassis.pid_turn_set(180_deg, TURN_SPEED, true);
   chassis.pid_wait();
-  Matchloader.set(false);  // up
+  chassis.pid_drive_set(85_in, DRIVE_SPEED, true);
   chassis.pid_wait();
-  chassis.pid_drive_set(93_in, DRIVE_SPEED, true);
+  chassis.pid_turn_set(180_deg, TURN_SPEED, true);
   chassis.pid_wait();
+
+
+  chassis.pid_targets_reset();
+  chassis.drive_sensor_reset();
+  chassis.drive_set(0, 0);
+
+  chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD); 
+  pros::delay(200);
+  Front_approach_to_distance(700, 50, 2000);
+  pros::delay(200);
+  chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD); 
+
   chassis.pid_turn_set(-90_deg, TURN_SPEED, true);
   chassis.pid_wait();
   Matchloader.set(true);  // down
@@ -428,27 +447,36 @@ void my_skills_auton() {
 
   chassis.pid_turn_set(-90_deg, TURN_SPEED, true);
   chassis.pid_wait();
-  chassis.pid_drive_set(-20_in, DRIVE_SPEED, true);
-  chassis.pid_wait();
-
-  chassis.pid_turn_set(0_deg, TURN_SPEED);
-  chassis.pid_wait();
-  chassis.pid_drive_set(5_in, DRIVE_SPEED, true);
-  chassis.pid_wait();
-
-
-  chassis.pid_turn_set(0_deg, TURN_SPEED);
-  chassis.pid_wait();
+  chassis.pid_drive_set(-15_in, DRIVE_SPEED, true);
   Matchloader.set(false);  // up
+  chassis.pid_wait();
+  chassis.pid_turn_set(-90_deg, TURN_SPEED);
+  chassis.pid_wait();
+
+  chassis.pid_turn_set(0_deg, TURN_SPEED);
   chassis.pid_wait();
   chassis.pid_drive_set(18_in, DRIVE_SPEED, true);
   chassis.pid_wait();
 
 
-  chassis.pid_turn_set(87_deg, TURN_SPEED);
+  chassis.pid_turn_set(90_deg, TURN_SPEED);
   chassis.pid_wait();
-  chassis.pid_drive_set(87_in, DRIVE_SPEED_5, true);
+  chassis.pid_drive_set(85_in, DRIVE_SPEED, true);
   chassis.pid_wait();
+  chassis.pid_turn_set(90_deg, TURN_SPEED);
+  chassis.pid_wait();
+
+  chassis.pid_targets_reset();
+  chassis.drive_sensor_reset();
+  chassis.drive_set(0, 0);
+
+  chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD); 
+  pros::delay(200);
+  Front_approach_to_distance(700, 50, 2000);
+  pros::delay(200);
+  chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD); 
+
+
   chassis.pid_turn_set(180_deg, TURN_SPEED);
   chassis.pid_wait();
 
@@ -461,7 +489,7 @@ void my_skills_auton() {
 
   chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD); 
   pros::delay(200);
-  Front_approach_to_distance(630, 50, 2000);
+  Front_approach_to_distance(660, 50, 2000);
   pros::delay(200);
   chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD); 
 
@@ -480,6 +508,9 @@ void my_skills_auton() {
 
   Matchloader.set(true);  // down  
   intake2.move(-127);
+  chassis.pid_wait();
+  chassis.pid_drive_set(15_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
   chassis.pid_turn_set(96_deg, TURN_SPEED, true);
   chassis.pid_wait();
 
@@ -489,7 +520,7 @@ void my_skills_auton() {
 
   chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD); 
   pros::delay(200);
-  Front_approach_to_distance(350, 50, 2000);
+  Front_approach_to_distance(330, 50, 2000);
   pros::delay(200);
   chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD); 
   pros::delay(2500);
@@ -499,16 +530,28 @@ void my_skills_auton() {
   intake1.move(127);
   pros::delay(500);
 
-  chassis.pid_turn_set(90_deg, TURN_SPEED, true);
+  chassis.pid_turn_set(93_deg, TURN_SPEED, true);
   chassis.pid_wait();
-  chassis.pid_drive_set(-30_in, DRIVE_SPEED, true);
+  chassis.pid_drive_set(-26_in, DRIVE_SPEED, true);
+  Matchloader.set(false);  // up
   chassis.pid_wait();
-  pros::delay(500);
+  chassis.pid_drive_set(-10_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
   intake2.move(127);
   pros::delay(2500);
   intake2.move(-127);
   chassis.pid_wait();
-  pros::delay(500);
+  pros::delay(2500);
+
+  chassis.pid_turn_set(45_deg, TURN_SPEED, true);
+  chassis.pid_wait();
+  chassis.pid_drive_set(30_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+  Matchloader.set(true);  // down
+  chassis.pid_wait();
+  chassis.pid_drive_set(45_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+  Matchloader.set(false);  // up
 
 
 
