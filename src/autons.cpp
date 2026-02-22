@@ -267,7 +267,7 @@ void my_skills_auton() {
   intake2.move(-127);
 
   chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD); 
-  Front_approach_to_distance(700, 50, 2000);
+  Front_approach_to_distance(700, 60, 2000);
   pros::delay(200);
   
 
@@ -281,7 +281,7 @@ void my_skills_auton() {
 
   chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD); 
   pros::delay(200);
-  Front_approach_to_distance(350, 50, 2000);
+  Front_approach_to_distance(305, 60, 2000);
   pros::delay(200);
   chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD);
   pros::delay(2500);
@@ -311,7 +311,11 @@ void my_skills_auton() {
 
   chassis.pid_turn_set(-90_deg, TURN_SPEED);
   chassis.pid_wait();
-  chassis.pid_drive_set(85_in, DRIVE_SPEED_5, true);
+  chassis.pid_drive_set(85_in, DRIVE_SPEED, true);
+  intake1.move(-127);
+  pros::delay(200);
+  intake1.move(127);
+  pros::delay(100);
   chassis.pid_wait();
   chassis.pid_turn_set(-90_deg, TURN_SPEED);
   chassis.pid_wait();
@@ -323,7 +327,7 @@ void my_skills_auton() {
 
   chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD); 
   pros::delay(200);
-  Front_approach_to_distance(700, 50, 2000);
+  Front_approach_to_distance(700, 60, 2000);
   pros::delay(200);
   chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD); 
 
@@ -339,7 +343,7 @@ void my_skills_auton() {
 
   chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD); 
   pros::delay(200);
-  Front_approach_to_distance(660, 50, 2000);  pros::delay(200);
+  Front_approach_to_distance(660, 60, 2000);  pros::delay(200);
   pros::delay(200);
   chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD); 
 
@@ -349,9 +353,9 @@ void my_skills_auton() {
   chassis.pid_drive_set(-21_in, DRIVE_SPEED, true);
   chassis.pid_wait();
   intake2.move(-127);
-  pros::delay(500);
+  pros::delay(700);
   intake2.move(127);
-  pros::delay(2500);
+  pros::delay(2100);
 
 
 
@@ -362,7 +366,7 @@ void my_skills_auton() {
   chassis.pid_wait();
   chassis.pid_drive_set(15_in, DRIVE_SPEED, true);
   chassis.pid_wait();
-  chassis.pid_turn_set(-96_deg, TURN_SPEED, true);
+  chassis.pid_turn_set(-98_deg, TURN_SPEED, true);
   chassis.pid_wait();
 
 
@@ -373,7 +377,7 @@ void my_skills_auton() {
 
   chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD); 
   pros::delay(200);
-  Front_approach_to_distance(370, 50, 2000);
+  Front_approach_to_distance(310, 60, 2000);
   pros::delay(200);
   chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD); 
   pros::delay(2500);
@@ -383,11 +387,14 @@ void my_skills_auton() {
   intake1.move(127);
   pros::delay(500);
 
-
   chassis.pid_turn_set(-93_deg, TURN_SPEED, true);
   chassis.pid_wait();
   chassis.pid_drive_set(-26_in, DRIVE_SPEED, true);
   Matchloader.set(false);  // up
+  intake1.move(-127);
+  pros::delay(300);
+  intake1.move(127);
+  pros::delay(200);
   chassis.pid_wait();
   chassis.pid_drive_set(-10_in, DRIVE_SPEED, true);
   chassis.pid_wait();
@@ -408,6 +415,10 @@ void my_skills_auton() {
   chassis.pid_turn_set(180_deg, TURN_SPEED, true);
   chassis.pid_wait();
   chassis.pid_drive_set(85_in, DRIVE_SPEED, true);
+  intake1.move(-127);
+  pros::delay(300);
+  intake1.move(127);
+  pros::delay(100);
   chassis.pid_wait();
   chassis.pid_turn_set(180_deg, TURN_SPEED, true);
   chassis.pid_wait();
@@ -419,7 +430,7 @@ void my_skills_auton() {
 
   chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD); 
   pros::delay(200);
-  Front_approach_to_distance(700, 50, 2000);
+  Front_approach_to_distance(600, 60, 2000);
   pros::delay(200);
   chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD); 
 
@@ -435,7 +446,7 @@ void my_skills_auton() {
 
   chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD); 
   pros::delay(200);
-  Front_approach_to_distance(350, 50, 2000);
+  Front_approach_to_distance(305, 60, 2000);
   pros::delay(200);
   chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD); 
   pros::delay(2500);
@@ -459,9 +470,14 @@ void my_skills_auton() {
   chassis.pid_wait();
 
 
-  chassis.pid_turn_set(90_deg, TURN_SPEED);
+  chassis.pid_turn_set(85_deg, TURN_SPEED);
   chassis.pid_wait();
   chassis.pid_drive_set(85_in, DRIVE_SPEED, true);
+  intake1.move(-127);
+  intake1.move(-127);
+  pros::delay(300);
+  intake1.move(127);
+  pros::delay(100);
   chassis.pid_wait();
   chassis.pid_turn_set(90_deg, TURN_SPEED);
   chassis.pid_wait();
@@ -472,7 +488,7 @@ void my_skills_auton() {
 
   chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD); 
   pros::delay(200);
-  Front_approach_to_distance(700, 50, 2000);
+  Front_approach_to_distance(700, 60, 2000);
   pros::delay(200);
   chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD); 
 
@@ -489,7 +505,7 @@ void my_skills_auton() {
 
   chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD); 
   pros::delay(200);
-  Front_approach_to_distance(660, 50, 2000);
+  Front_approach_to_distance(630, 60, 2000);
   pros::delay(200);
   chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD); 
 
@@ -499,10 +515,10 @@ void my_skills_auton() {
   chassis.pid_drive_set(-21_in, DRIVE_SPEED, true);
   chassis.pid_wait();
   intake2.move(-127);
-  pros::delay(500);
+  pros::delay(700);
   intake2.move(127);
-  pros::delay(2500);
-  chassis.pid_wait();
+  pros::delay(2100);
+
 
   //APPROACH 4TH MATCHLOADER AND SCORE IN 2ND HIGH GOAL 
 
@@ -511,7 +527,7 @@ void my_skills_auton() {
   chassis.pid_wait();
   chassis.pid_drive_set(15_in, DRIVE_SPEED, true);
   chassis.pid_wait();
-  chassis.pid_turn_set(96_deg, TURN_SPEED, true);
+  chassis.pid_turn_set(77_deg, TURN_SPEED, true);
   chassis.pid_wait();
 
   chassis.pid_targets_reset();
@@ -520,7 +536,7 @@ void my_skills_auton() {
 
   chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD); 
   pros::delay(200);
-  Front_approach_to_distance(330, 50, 2000);
+  Front_approach_to_distance(330, 60, 2000);
   pros::delay(200);
   chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD); 
   pros::delay(2500);
@@ -530,10 +546,14 @@ void my_skills_auton() {
   intake1.move(127);
   pros::delay(500);
 
-  chassis.pid_turn_set(93_deg, TURN_SPEED, true);
+  chassis.pid_turn_set(80_deg, TURN_SPEED, true);
   chassis.pid_wait();
-  chassis.pid_drive_set(-26_in, DRIVE_SPEED, true);
+  chassis.pid_drive_set(-15_in, DRIVE_SPEED, true);
   Matchloader.set(false);  // up
+  chassis.pid_wait();
+  chassis.pid_turn_set(90_deg, TURN_SPEED, true);
+  chassis.pid_wait();
+  chassis.pid_drive_set(-15_in, DRIVE_SPEED, true);
   chassis.pid_wait();
   chassis.pid_drive_set(-10_in, DRIVE_SPEED, true);
   chassis.pid_wait();
